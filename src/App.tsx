@@ -39,6 +39,7 @@ function App() {
   const progress = Math.max(0, Math.min(100, elapsed / total * 100))
   const weeks = Math.floor(days / 7), rem = days % 7
   const work = workingDays(now, TARGET)
+  const weekend = Math.max(0, days - work)
   const nextMilestone = useMemo(() => milestones.find(m => new Date(m.date+'T00:00:00') >= now), [now])
   const toggle = (id: string) => setChecked(v => v.includes(id) ? v.filter(x => x !== id) : [...v, id])
   return <main className="shell">
@@ -52,6 +53,14 @@ function App() {
         <div className="numbers"><div><strong>{days}</strong><span>DAYS TO GO</span></div><div><strong>{weeks}<small>w</small> {rem}<small>d</small></strong><span>WEEKS + DAYS</span></div><div><strong>{work}</strong><span>WEEKDAYS LEFT</span></div></div>
         <div className="progress-meta"><span>TIME IN TCS</span><b>{progress.toFixed(1)}%</b></div><div className="progress-track"><div style={{width:progress+'%'}}/></div>
         <div className="progress-foot"><span>Joined 28 Aug 2025</span><span>2 years · 28 Aug 2027</span></div>
+      </div>
+    </section>
+    <section className="remaining-panel panel">
+      <div className="section-head"><div><span className="kicker">EVERY DAY COUNTS</span><h3>Time remaining</h3></div><span className="pill">LIVE COUNT</span></div>
+      <div className="remaining-grid">
+        <article><b>{days.toLocaleString('en-IN')}</b><span>CALENDAR DAYS</span><small>Every day, including Saturdays and Sundays</small></article>
+        <article><b>{work.toLocaleString('en-IN')}</b><span>WEEKDAYS REMAINING</span><small>Monday to Friday · public holidays not excluded</small></article>
+        <article><b>{weekend.toLocaleString('en-IN')}</b><span>WEEKEND DAYS</span><small>Saturdays and Sundays</small></article>
       </div>
     </section>
     <section className="stats">
